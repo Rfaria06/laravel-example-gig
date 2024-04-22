@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+    db:
+        image: postgres
+        restart: always
+        container_name: postgres_laravel_example
+        environment:
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_DB: ${DB_DATABASE}
+        ports:
+            - "5432:5432"
+        volumes:
+            - postgres_laravel_data:/var/lib/postgresql/data
+
+volumes:
+    postgres_laravel_data:
