@@ -12,11 +12,26 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/listings/{id}', function($id) {
+// Route Model binding
+// Automatically returns the 404 page if the listing doesnt exist
+Route::get('/listings/{listing}', function (Listing $listing) {
     return view('listing', [
-        'listing' => Listing::find($id)
+        'listing' => $listing
     ]);
 });
+
+// --- Manual data fetching
+// Route::get('/listings/{id}', function ($id) {
+//     $listing = Listing::find($id);
+//
+//     if ($listing) {
+//         return view('listing', [
+//             'listing' => Listing::find($id)
+//         ]);
+//     } else {
+//         abort('404');
+//     }
+// });
 
 // Route::get('/hello', function () {
 //     return response('<h1>Hello World!</h1>')
