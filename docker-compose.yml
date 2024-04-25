@@ -13,5 +13,17 @@ services:
         volumes:
             - postgres_laravel_data:/var/lib/postgresql/data
 
+    pgadmin:
+        image: dpage/pgadmin4
+        restart: always
+        container_name: pgadmin
+        environment:
+            PGADMIN_DEFAULT_EMAIL: raul@faria.ch
+            PGADMIN_DEFAULT_PASSWORD: ${DB_PASSWORD}
+        ports:
+            - "8083:80"
+        depends_on:
+            - db
+
 volumes:
     postgres_laravel_data:
