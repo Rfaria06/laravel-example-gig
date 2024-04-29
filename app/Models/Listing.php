@@ -9,6 +9,16 @@ class Listing extends Model
 {
     use HasFactory;
 
+    // Either declare fields as fillable through forms
+    // Or use Model::unguard(); in AppServiceProvider
+    // protected $fillable = ['title', 'company', 'location', 'website', 'email', 'description', 'tags'];
+
+    /*
+        Only use Model::unguard() if fields are validated.
+        Model::unguard() allows all request fields to be inserted into the database,
+        Which we dont want for fields like updatedAt or createdAt etc.
+    */
+
     public function scopeFilter($query, array $filters)
     {
         if ($filters['tag'] ?? false) {

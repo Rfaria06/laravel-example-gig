@@ -21,6 +21,14 @@ use Illuminate\Support\Facades\Route;
 
 // All listings
 Route::get('/', [ListingController::class, 'index']);
+
+
+// Show create Form
+Route::get("/listings/create", [ListingController::class, 'create']);
+
+// Store listing
+Route::post("/listings", [ListingController::class, 'store']);
+
 // Route Model binding
 // Automatically returns the 404 page if the listing doesnt exist
 Route::get('/listings/{listing}', [ListingController::class, 'show']);
