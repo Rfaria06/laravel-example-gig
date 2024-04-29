@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Listing;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 
 class ListingController extends Controller
@@ -15,7 +14,7 @@ class ListingController extends Controller
         return view('listings.index', [
             'listings' => Listing::latest()
                 ->filter(request(['tag', 'search']))
-                ->get()
+                ->paginate(6)
         ]);
     }
 
