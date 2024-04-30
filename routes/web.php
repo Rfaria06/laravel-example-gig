@@ -3,6 +3,7 @@
 // use Illuminate\Http\Request;
 
 use App\Http\Controllers\ListingController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,9 +30,33 @@ Route::get("/listings/create", [ListingController::class, 'create']);
 // Store listing
 Route::post("/listings", [ListingController::class, 'store']);
 
+// Show Edit form
+Route::get('/listings/{listing}/edit', [ListingController::class, 'edit']);
+
+// Update Listing
+Route::put('listings/{listing}', [ListingController::class, 'update']);
+
+// Delete listing
+Route::delete('listings/{listing}', [ListingController::class, 'destroy']);
+
 // Route Model binding
-// Automatically returns the 404 page if the listing doesnt exist
+// Automatically returns the 404 page if the listing doesn't exist
 Route::get('/listings/{listing}', [ListingController::class, 'show']);
+
+// Show Register create form
+Route::get('/register', [UserController::class, 'create']);
+
+// Create new User
+Route::post('/users', [UserController::class, 'store']);
+
+// Log User Out
+Route::post('/logout', [UserController::class, 'logout']);
+
+// Show Login form
+Route::get('/login', [UserController::class, 'login']);
+
+// Log in User
+Route::post('/users/authenticate', [UserController::class, 'authenticate']);
 
 // --- Manual data fetching
 // Route::get('/listings/{id}', function ($id) {
