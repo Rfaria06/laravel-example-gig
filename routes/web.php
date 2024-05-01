@@ -25,26 +25,36 @@ Route::get('/', [ListingController::class, 'index']);
 
 
 // Show create Form
-Route::get("/listings/create", [ListingController::class, 'create']);
+Route::get("/listings/create", [ListingController::class, 'create'])
+    ->middleware('auth');
 
 // Store listing
-Route::post("/listings", [ListingController::class, 'store']);
+Route::post("/listings", [ListingController::class, 'store'])
+    ->middleware('auth');
+
+// Manage Listings
+Route::get('/listings/manage', [ListingController::class, 'manage'])
+    ->middleware('auth');
 
 // Show Edit form
-Route::get('/listings/{listing}/edit', [ListingController::class, 'edit']);
+Route::get('/listings/{listing}/edit', [ListingController::class, 'edit'])
+    ->middleware('auth');
 
 // Update Listing
-Route::put('listings/{listing}', [ListingController::class, 'update']);
+Route::put('listings/{listing}', [ListingController::class, 'update'])
+    ->middleware('auth');
 
 // Delete listing
-Route::delete('listings/{listing}', [ListingController::class, 'destroy']);
+Route::delete('listings/{listing}', [ListingController::class, 'destroy'])
+    ->middleware('auth');
 
 // Route Model binding
 // Automatically returns the 404 page if the listing doesn't exist
 Route::get('/listings/{listing}', [ListingController::class, 'show']);
 
 // Show Register create form
-Route::get('/register', [UserController::class, 'create']);
+Route::get('/register', [UserController::class, 'create'])
+    ->middleware('guest');
 
 // Create new User
 Route::post('/users', [UserController::class, 'store']);
@@ -53,7 +63,9 @@ Route::post('/users', [UserController::class, 'store']);
 Route::post('/logout', [UserController::class, 'logout']);
 
 // Show Login form
-Route::get('/login', [UserController::class, 'login']);
+Route::get('/login', [UserController::class, 'login'])
+    ->name('login')
+    ->middleware('guest');
 
 // Log in User
 Route::post('/users/authenticate', [UserController::class, 'authenticate']);

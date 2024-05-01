@@ -26,6 +26,22 @@ class ListingController extends Controller
         ]);
     }
 
+    // Manage Listings
+    public function manage()
+    {
+        /**
+         * Explicitly type the user to User instead of Authenticable
+         *
+         * @var \App\Models\User $user
+         */
+
+        $user = auth()->user();
+
+        return view('listings.manage', [
+            'listings' => $user->listings()->get(),
+        ]);
+    }
+
     // Show create form
     public function create()
     {
@@ -49,6 +65,8 @@ class ListingController extends Controller
             $formFields['logo'] = $request->file('logo')->store('logos', 'public');
         }
 
+        $formFields['user_id'] = auth()->id();
+
         Listing::create($formFields);
 
         // Session::flash('message', 'Listing Created');
@@ -59,12 +77,22 @@ class ListingController extends Controller
     // Show Edit form
     public function edit(Listing $listing)
     {
+        // Make sure logged in user is owner
+        if ($listing->user_id != auth()->id()) {
+            abort(403, 'Unauthorized Action');
+        }
+
         return view('listings.edit', ['listing' => $listing]);
     }
 
     // Update listing
     public function update(Request $request, Listing $listing)
     {
+        // Make sure logged in user is owner
+        if ($listing->user_id != auth()->id()) {
+            abort(403, 'Unauthorized Action');
+        }
+
         $formFields = $request->validate([
             'title' => 'required',
             'company' => ['required'],
@@ -83,12 +111,17 @@ class ListingController extends Controller
 
         // Session::flash('message', 'Listing Created');
 
-        return back()->with('message', 'Listing Created successfully');
+        return back()->with('message', 'Listing Updated successfully');
     }
 
     // Delete listing
     public function destroy(Listing $listing)
     {
+        // Make sure logged in user is owner
+        if ($listing->user_id != auth()->id()) {
+            abort(403, 'Unauthorized Action');
+        }
+
         $listing->delete();
         return redirect('/')->with('message', 'Listing deleted successfully');
     }
